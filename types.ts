@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { FieldError } from "react-hook-form";
 import {
 	ColorValue,
 	ImageProps,
@@ -82,6 +81,47 @@ export type InputProps = {
 		| undefined;
 	placeholderTextColor?: ColorValue;
 	keyboardType?: KeyboardTypeOptions;
-	error?: FieldError;
+	error?: string;
 	isPassword?: boolean;
+	disabled?: boolean;
+};
+
+export type Student = {
+	id: string;
+	first_name: string;
+	last_name: string;
+	email: string;
+	enrollment_status: string;
+	avatar: string;
+};
+
+export type EnrollmentStatus = "Graduated" | "Enrolled" | "Alumni";
+
+export type AppStoreProps = {
+	allStudents: Student[];
+	currentUser: CurrentUserProps | null;
+	isNewUser: boolean;
+	setIsNewUser: (isNewUser: boolean) => void;
+	addNewStudent: (student: Student) => void;
+	setAllStudents: (students: Student[]) => void;
+	setCurrentUser: (user: CurrentUserProps) => void;
+	updateStudent: (student: Student) => void;
+	deleteStudent: (studentId: string) => void;
+	selectedStudent: Student | null;
+	setSelectedStudent: (student: Student | null) => void;
+	updateProfile: (user: CurrentUserProps) => void;
+	logout: () => void;
+};
+
+export type CurrentUserProps = {
+	fullname: string;
+	email: string;
+	password?: string;
+	avatar?: string;
+};
+
+export type ModalWrapperProps = {
+	style?: ViewStyle;
+	children: ReactNode;
+	bg?: string;
 };
