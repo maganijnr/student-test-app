@@ -38,7 +38,11 @@ const Input: FC<InputProps> = ({
 				keyboardType={keyboardType}
 				maxLength={maxLength}
 			/>
-			{error && <Typo color={colors.rose}>{error}</Typo>}
+			{error && (
+				<Typo size={10} color={colors.rose}>
+					{error}
+				</Typo>
+			)}
 			{isPassword && (
 				<Pressable
 					style={styles.eyeIcon}

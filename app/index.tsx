@@ -1,7 +1,9 @@
 import Typo from "@/components/Typo";
 import { colors } from "@/constants/theme";
+import { studentsData } from "@/data/student-data";
+import useAppStore from "@/store/store";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
 import Animated, {
 	Easing,
@@ -11,8 +13,9 @@ import Animated, {
 } from "react-native-reanimated";
 
 export default function Page() {
-	const [user, setUser] = useState(null);
-	const isNewUser = true;
+	const { currentUser, isNewUser, allStudents, setAllStudents } =
+		useAppStore();
+
 	const opacity = useSharedValue(0);
 	const translateY = useSharedValue(-50);
 
@@ -37,14 +40,19 @@ export default function Page() {
 	useEffect(() => {
 		setTimeout(() => {
 			if (!isNewUser) {
-				router.replace("/(auth)/login");
+				if (!currentUser) {
+					router.replace("/(auth)/register");
+					return;
+				}
+				router.replace("/(tabs)");
 			} else {
-				if (!user) {
+				if (!currentUser) {
+					if (allStudents.length === 0) setAllStudents(studentsData);
 					router.replace("/(auth)/(onboarding)");
 				}
 			}
 		}, 2000);
-	}, [user, isNewUser]);
+	}, [currentUser, isNewUser]);
 
 	return (
 		<View style={styles.container}>
