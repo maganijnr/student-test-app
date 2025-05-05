@@ -10,7 +10,7 @@ const EmptyState: FC<{ message: string }> = ({ message }) => {
 		<View style={styles.container}>
 			<Icons.Empty size={verticalScale(100)} color={colors.primaryDark} />
 			<Typo size={20} fontWeight={700} color={colors.black}>
-				{message}
+				{message ? message : "No data found"}
 			</Typo>
 		</View>
 	);
