@@ -42,7 +42,7 @@ const StudentCard: FC<Student> = ({
 							source={
 								avatar
 									? avatar
-									: require("@/assets/images/onboarding/onboarding_one.png")
+									: require("@/assets/images/no-profile.png")
 							}
 							contentFit="cover"
 							transition={1000}

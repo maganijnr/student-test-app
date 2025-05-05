@@ -7,7 +7,7 @@ const EnrollmentPill: FC<{ enrollment: string }> = ({ enrollment }) => {
 	return (
 		<View style={styles.container}>
 			<Typo size={10} color={colors.primaryDark} fontWeight={700}>
-				{enrollment}
+				{enrollment ? enrollment : "Invalid"}
 			</Typo>
 		</View>
 	);
