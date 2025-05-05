@@ -6,6 +6,7 @@ import Input from "@/components/Input";
 import ModalWrapper from "@/components/ModalWrapper";
 import { colors, radius, spacingX, spacingY } from "@/constants/theme";
 import { getProfileImage } from "@/services/image.service";
+import { deleteStudentApi, updateStudentApi } from "@/services/student.service";
 import useAppStore from "@/store/store";
 import { EnrollmentStatus, Student } from "@/types";
 import { scale, verticalScale } from "@/utils/styling";
@@ -108,20 +109,31 @@ const studentModal = () => {
 			avatar: updatedImageUrl,
 		};
 
-		updateStudent(data);
+		const res = await updateStudentApi(data);
+
+		if (res?.success && res?.data) {
+			updateStudent(data);
+
+			Toast.show({
+				type: "success",
+				text1: "Updated Successfully",
+				text2: "Student data was updated successfully",
+			});
+
+			reset();
+			router.back();
+			setSelectedStudent(null);
+			return;
+		}
 
 		Toast.show({
-			type: "success",
-			text1: "Updated Successfully",
-			text2: "Student data was updated successfully",
+			type: "error",
+			text1: "Error",
+			text2: "Failed to update student data",
 		});
-
-		reset();
-		router.back();
-		setSelectedStudent(null);
 	};
 
-	const handleDeleteStudent = () => {
+	const handleDeleteStudent = async () => {
 		if (!selectedStudent) {
 			Toast.show({
 				type: "error",
@@ -133,14 +145,28 @@ const studentModal = () => {
 			return;
 		}
 
-		deleteStudent(selectedStudent?.id);
+		const res = await deleteStudentApi(selectedStudent?.id);
+
+		if (res?.success && res?.data) {
+			deleteStudent(res?.data);
+
+			Toast.show({
+				type: "success",
+				text1: "Deleted Successfully",
+				text2: "Student data was deleted successfully",
+			});
+
+			reset();
+			router.back();
+			setSelectedStudent(null);
+			return;
+		}
+
 		Toast.show({
-			type: "success",
-			text1: "Deleted Successfully",
-			text2: "Student data was deleted successfully",
+			type: "error",
+			text1: "Error",
+			text2: "Failed to delete student data",
 		});
-		router.back();
-		setSelectedStudent(null);
 	};
 
 	useEffect(() => {

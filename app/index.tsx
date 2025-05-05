@@ -1,6 +1,5 @@
 import Typo from "@/components/Typo";
 import { colors } from "@/constants/theme";
-import { studentsData } from "@/data/student-data";
 import useAppStore from "@/store/store";
 import { router } from "expo-router";
 import { useEffect } from "react";
@@ -13,8 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 export default function Page() {
-	const { currentUser, isNewUser, allStudents, setAllStudents } =
-		useAppStore();
+	const { currentUser, isNewUser, loadInitialData } = useAppStore();
 
 	const opacity = useSharedValue(0);
 	const translateY = useSharedValue(-50);
@@ -38,6 +36,10 @@ export default function Page() {
 	});
 
 	useEffect(() => {
+		useAppStore.getState().loadInitialData();
+	}, []);
+
+	useEffect(() => {
 		setTimeout(() => {
 			if (!isNewUser) {
 				if (!currentUser) {
@@ -47,7 +49,6 @@ export default function Page() {
 				router.replace("/(tabs)");
 			} else {
 				if (!currentUser) {
-					if (allStudents.length === 0) setAllStudents(studentsData);
 					router.replace("/(auth)/(onboarding)");
 				}
 			}

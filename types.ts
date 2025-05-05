@@ -84,6 +84,7 @@ export type InputProps = {
 	error?: string;
 	isPassword?: boolean;
 	disabled?: boolean;
+	style?: ViewStyle;
 };
 
 export type Student = {

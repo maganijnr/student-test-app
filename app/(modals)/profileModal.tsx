@@ -5,6 +5,7 @@ import Input from "@/components/Input";
 import ModalWrapper from "@/components/ModalWrapper";
 import { colors, spacingX, spacingY } from "@/constants/theme";
 import { getProfileImage } from "@/services/image.service";
+import { updateProfileApi } from "@/services/profile.service";
 import useAppStore from "@/store/store";
 import { CurrentUserProps } from "@/types";
 import { scale, verticalScale } from "@/utils/styling";
@@ -70,16 +71,27 @@ const profileModal = () => {
 			avatar: updatedImageUrl,
 		};
 
-		updateProfile(data);
+		const res = await updateProfileApi(data);
+
+		if (res?.success && res?.data) {
+			updateProfile(res?.data);
+
+			Toast.show({
+				type: "success",
+				text1: "Updated Successfully",
+				text2: "Profile was updated successfully",
+			});
+
+			reset();
+			router.back();
+			return;
+		}
 
 		Toast.show({
-			type: "success",
-			text1: "Updated Successfully",
-			text2: "Student data was updated successfully",
+			type: "error",
+			text1: "Error",
+			text2: "Failed to update profile",
 		});
-
-		reset();
-		router.back();
 	};
 
 	useEffect(() => {

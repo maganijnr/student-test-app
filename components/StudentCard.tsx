@@ -7,62 +7,57 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import React, { FC } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import EnrollmentPill from "./EnrollmentPill";
 import Typo from "./Typo";
 
-const StudentCard: FC<Student> = ({
-	id,
-	first_name,
-	last_name,
-	email,
-	enrollment_status,
-	avatar,
-}) => {
+const StudentCard: FC<{ item: Student; index: number }> = ({ item, index }) => {
 	const { setSelectedStudent } = useAppStore();
 	return (
-		<TouchableOpacity
-			onPress={() => {
-				setSelectedStudent({
-					id,
-					first_name,
-					last_name,
-					email,
-					enrollment_status,
-					avatar,
-				});
-				router.push("/(modals)/studentModal");
-			}}
+		<Animated.View
+			entering={FadeInDown.delay(index * 60)
+				.springify()
+				.damping(13)}
 		>
-			<View style={styles.container}>
-				<View
-					style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
-				>
-					<View style={styles.imageContainer}>
-						<Image
-							source={
-								avatar
-									? avatar
-									: require("@/assets/images/no-profile.png")
-							}
-							contentFit="cover"
-							transition={1000}
-							style={styles.image}
-						/>
-					</View>
+			<TouchableOpacity
+				onPress={() => {
+					setSelectedStudent({
+						...item,
+					});
+					router.push("/(modals)/studentModal");
+				}}
+			>
+				<View style={styles.container}>
+					<View
+						style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
+					>
+						<View style={styles.imageContainer}>
+							<Image
+								source={
+									item?.avatar
+										? item?.avatar
+										: require("@/assets/images/no-profile.png")
+								}
+								contentFit="cover"
+								transition={1000}
+								style={styles.image}
+							/>
+						</View>
 
-					<View>
-						<Typo size={14} fontWeight={600}>
-							{first_name + " " + last_name}
-						</Typo>
-						<Typo size={12} fontWeight={700}>
-							{shortenWord(email, 18)}
-						</Typo>
-					</View>
+						<View>
+							<Typo size={14} fontWeight={600}>
+								{item?.first_name + " " + item?.last_name}
+							</Typo>
+							<Typo size={12} fontWeight={700}>
+								{shortenWord(item?.email, 18)}
+							</Typo>
+						</View>
 
-					<EnrollmentPill enrollment={enrollment_status} />
+						<EnrollmentPill enrollment={item?.enrollment_status} />
+					</View>
 				</View>
-			</View>
-		</TouchableOpacity>
+			</TouchableOpacity>
+		</Animated.View>
 	);
 };
 

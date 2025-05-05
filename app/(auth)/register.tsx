@@ -23,9 +23,8 @@ const schema = z.object({
 type FormSchemaProps = z.infer<typeof schema>;
 
 const RegisterScreen = () => {
-	const { setCurrentUser, setIsNewUser } = useAppStore();
+	const { setCurrentUser } = useAppStore();
 	const {
-		register,
 		formState: { errors },
 		setValue,
 		watch,
@@ -42,7 +41,7 @@ const RegisterScreen = () => {
 	const onSubmit = (data: FormSchemaProps) => {
 		if (data.fullname && data.email && data.password) {
 			setCurrentUser(data);
-			setIsNewUser(false);
+
 			router.replace("/(tabs)");
 		}
 	};
