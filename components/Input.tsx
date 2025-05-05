@@ -19,10 +19,11 @@ const Input: FC<InputProps> = ({
 	keyboardType,
 	error,
 	isPassword = false,
+	style,
 }) => {
 	const [isVisible, setIsVisible] = useState(isSecured);
 	return (
-		<View style={styles.inputContainer}>
+		<View style={[styles.inputContainer, style && style]}>
 			{label && (
 				<Typo color={colors.primaryDark} size={14} fontWeight={600}>
 					{label}

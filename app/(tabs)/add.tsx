@@ -5,6 +5,7 @@ import ScreenWrapper from "@/components/ScreenWrapper";
 import Typo from "@/components/Typo";
 import { colors, spacingX, spacingY } from "@/constants/theme";
 import { getProfileImage } from "@/services/image.service";
+import { addNewStudentApi } from "@/services/student.service";
 import useAppStore from "@/store/store";
 import { EnrollmentStatus, Student } from "@/types";
 import { generateRandomId } from "@/utils/formatter";
@@ -107,15 +108,26 @@ const AddStudentScreen = () => {
 			avatar: imageUrl,
 		};
 
-		addNewStudent(data);
-		Toast.show({
-			type: "success",
-			text1: "Created Successfully",
-			text2: "Student was created successfully",
-		});
+		const res = await addNewStudentApi(data);
 
-		reset();
-		router.push("/(tabs)");
+		if (res?.success && res?.data) {
+			addNewStudent(res?.data);
+			Toast.show({
+				type: "success",
+				text1: "Created Successfully",
+				text2: "Student was created successfully",
+			});
+
+			reset();
+			router.push("/(tabs)");
+			return;
+		}
+
+		Toast.show({
+			type: "error",
+			text1: "Error",
+			text2: "Failed to add student",
+		});
 	};
 
 	return (
