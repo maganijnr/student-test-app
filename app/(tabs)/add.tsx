@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import CustomDropdown from "@/components/CustomDropdown";
 import Input from "@/components/Input";
+import KeyboardAvoidingViewContainer from "@/components/KeyboardAvoidingViewContainer";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import Typo from "@/components/Typo";
 import { colors, spacingX, spacingY } from "@/constants/theme";
@@ -17,7 +18,7 @@ import { router } from "expo-router";
 import * as Icons from "phosphor-react-native";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { z } from "zod";
 
@@ -139,98 +140,104 @@ const AddStudentScreen = () => {
 					paddingHorizontal: spacingX._20,
 				}}
 			>
-				<ScrollView style={styles.container} contentContainerStyle={{}}>
-					<View style={styles.avatarContainer}>
-						<Image
-							source={getProfileImage(image)}
-							style={styles.avatar}
-							contentFit="cover"
-							transition={100}
-						/>
-
-						<TouchableOpacity
-							style={styles.editIcon}
-							onPress={onPickImage}
-						>
-							<Icons.Pencil
-								size={verticalScale(20)}
-								color={colors.white}
+				<KeyboardAvoidingViewContainer>
+					{/* <ScrollView style={styles.container} contentContainerStyle={{}}>
+						
+					</ScrollView> */}
+					<View style={{ flex: 1 }}>
+						<View style={styles.avatarContainer}>
+							<Image
+								source={getProfileImage(image)}
+								style={styles.avatar}
+								contentFit="cover"
+								transition={100}
 							/>
-						</TouchableOpacity>
+
+							<TouchableOpacity
+								style={styles.editIcon}
+								onPress={onPickImage}
+							>
+								<Icons.Pencil
+									size={verticalScale(20)}
+									color={colors.white}
+								/>
+							</TouchableOpacity>
+						</View>
+						{errors?.avatar?.message && (
+							<Typo
+								size={10}
+								color={colors.rose}
+								style={{ textAlign: "center", marginTop: spacingY._5 }}
+							>
+								{errors?.avatar?.message}
+							</Typo>
+						)}
+
+						<View style={styles.formContainer}>
+							<Input
+								label="First name"
+								onHandleTextChange={(val) => {
+									setValue("first_name", val);
+								}}
+								value={watch("first_name")}
+								placeHolder="Enter student first name"
+								placeholderTextColor={colors.neutral400}
+								keyboardType="default"
+								error={
+									errors?.first_name?.message &&
+									errors?.first_name?.message
+								}
+							/>
+
+							<Input
+								label="Last name"
+								onHandleTextChange={(val) => {
+									setValue("last_name", val);
+								}}
+								value={watch("last_name")}
+								placeHolder="Enter student first name"
+								placeholderTextColor={colors.neutral400}
+								keyboardType="default"
+								error={
+									errors?.last_name?.message &&
+									errors?.last_name?.message
+								}
+							/>
+
+							<Input
+								label="Email"
+								onHandleTextChange={(val) => {
+									setValue("email", val);
+								}}
+								value={watch("email")}
+								placeHolder="Enter your email"
+								keyboardType="email-address"
+								error={errors?.email?.message && errors?.email?.message}
+								placeholderTextColor={colors.neutral400}
+							/>
+
+							<CustomDropdown
+								options={enrollmentOptions}
+								handleOnSelect={(val) => {
+									setValue("enrollment_status", val);
+								}}
+								value={watch("enrollment_status")}
+								placeHolder="Select enrollment status"
+								label="Enrollment status"
+								error={
+									errors?.enrollment_status?.message &&
+									errors?.enrollment_status?.message
+								}
+							/>
+						</View>
 					</View>
-					{errors?.avatar?.message && (
-						<Typo
-							size={10}
-							color={colors.rose}
-							style={{ textAlign: "center", marginTop: spacingY._5 }}
-						>
-							{errors?.avatar?.message}
-						</Typo>
-					)}
 
-					<View style={styles.formContainer}>
-						<Input
-							label="First name"
-							onHandleTextChange={(val) => {
-								setValue("first_name", val);
-							}}
-							value={watch("first_name")}
-							placeHolder="Enter student first name"
-							placeholderTextColor={colors.neutral400}
-							keyboardType="default"
-							error={
-								errors?.first_name?.message &&
-								errors?.first_name?.message
-							}
-						/>
-
-						<Input
-							label="Last name"
-							onHandleTextChange={(val) => {
-								setValue("last_name", val);
-							}}
-							value={watch("last_name")}
-							placeHolder="Enter student first name"
-							placeholderTextColor={colors.neutral400}
-							keyboardType="default"
-							error={
-								errors?.last_name?.message && errors?.last_name?.message
-							}
-						/>
-
-						<Input
-							label="Email"
-							onHandleTextChange={(val) => {
-								setValue("email", val);
-							}}
-							value={watch("email")}
-							placeHolder="Enter your email"
-							keyboardType="email-address"
-							error={errors?.email?.message && errors?.email?.message}
-							placeholderTextColor={colors.neutral400}
-						/>
-
-						<CustomDropdown
-							options={enrollmentOptions}
-							handleOnSelect={(val) => {
-								setValue("enrollment_status", val);
-							}}
-							value={watch("enrollment_status")}
-							placeHolder="Select enrollment status"
-							label="Enrollment status"
-							error={
-								errors?.enrollment_status?.message &&
-								errors?.enrollment_status?.message
-							}
-						/>
-					</View>
-				</ScrollView>
-
-				<Button
-					buttonText="Add Student"
-					handleOnPress={handleSubmit(onSubmit)}
-					variant="default"
-				/>
+					<Button
+						buttonText="Add Student"
+						handleOnPress={handleSubmit(onSubmit)}
+						variant="default"
+					/>
+				</KeyboardAvoidingViewContainer>
 			</View>
 		</ScreenWrapper>
 	);
@@ -241,7 +248,7 @@ export default AddStudentScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingVertical: spacingX._10,
+		// paddingVertical: spacingX._10,
 	},
 
 	avatarContainer: {

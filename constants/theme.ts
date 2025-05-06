@@ -1,4 +1,6 @@
 import { scale, verticalScale } from "@/utils/styling";
+import Constants from "expo-constants";
+import { Platform } from "react-native";
 
 export const colors = {
 	primary: "#a3e635",
@@ -64,3 +66,6 @@ export const radius = {
 	_20: verticalScale(20),
 	_30: verticalScale(30),
 };
+
+export const KEYBOARD_VERTICAL_OFFSET = Platform.OS === "ios" ? 50 : 0;
+export const statusBarHeight = Constants.statusBarHeight;

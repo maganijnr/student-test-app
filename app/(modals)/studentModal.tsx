@@ -3,6 +3,7 @@ import Button from "@/components/Button";
 import CustomDropdown from "@/components/CustomDropdown";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
+import KeyboardAvoidingViewContainer from "@/components/KeyboardAvoidingViewContainer";
 import ModalWrapper from "@/components/ModalWrapper";
 import { colors, radius, spacingX, spacingY } from "@/constants/theme";
 import { getProfileImage } from "@/services/image.service";
@@ -17,7 +18,13 @@ import { router } from "expo-router";
 import * as Icons from "phosphor-react-native";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+	Platform,
+	ScrollView,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from "react-native";
 import Toast from "react-native-toast-message";
 import { z } from "zod";
 
@@ -122,7 +129,7 @@ const studentModal = () => {
 
 			reset();
 			router.back();
-			setSelectedStudent(null);
+			// setSelectedStudent(null);
 			return;
 		}
 
@@ -141,7 +148,7 @@ const studentModal = () => {
 				text2: "Selected a student to delete",
 			});
 			router.back();
-			setSelectedStudent(null);
+			// setSelectedStudent(null);
 			return;
 		}
 
@@ -158,7 +165,7 @@ const studentModal = () => {
 
 			reset();
 			router.back();
-			setSelectedStudent(null);
+			// setSelectedStudent(null);
 			return;
 		}
 
@@ -190,89 +197,92 @@ const studentModal = () => {
 					style={{ marginBottom: spacingY._10, paddingHorizontal: 0 }}
 				/>
 
-				<ScrollView contentContainerStyle={styles.form}>
-					<View style={styles.avatarContainer}>
-						<Image
-							source={
-								image
-									? getProfileImage(image)
-									: imageUrl
-									? imageUrl
-									: getProfileImage(image)
-							}
-							style={styles.avatar}
-							contentFit="cover"
-							transition={100}
-						/>
-
-						<TouchableOpacity
-							style={styles.editIcon}
-							onPress={onPickImage}
-						>
-							<Icons.Pencil
-								size={verticalScale(20)}
-								color={colors.white}
+				<KeyboardAvoidingViewContainer>
+					<ScrollView contentContainerStyle={styles.form}>
+						<View style={styles.avatarContainer}>
+							<Image
+								source={
+									image
+										? getProfileImage(image)
+										: imageUrl
+										? imageUrl
+										: getProfileImage(image)
+								}
+								style={styles.avatar}
+								contentFit="cover"
+								transition={100}
 							/>
-						</TouchableOpacity>
-					</View>
 
-					<View style={styles.formContainer}>
-						<Input
-							label="First name"
-							onHandleTextChange={(val) => {
-								setValue("first_name", val);
-							}}
-							value={watch("first_name")}
-							placeHolder="Enter student first name"
-							placeholderTextColor={colors.neutral400}
-							keyboardType="default"
-							error={
-								errors?.first_name?.message &&
-								errors?.first_name?.message
-							}
-						/>
+							<TouchableOpacity
+								style={styles.editIcon}
+								onPress={onPickImage}
+							>
+								<Icons.Pencil
+									size={verticalScale(20)}
+									color={colors.white}
+								/>
+							</TouchableOpacity>
+						</View>
 
-						<Input
-							label="Last name"
-							onHandleTextChange={(val) => {
-								setValue("last_name", val);
-							}}
-							value={watch("last_name")}
-							placeHolder="Enter student first name"
-							placeholderTextColor={colors.neutral400}
-							keyboardType="default"
-							error={
-								errors?.last_name?.message && errors?.last_name?.message
-							}
-						/>
+						<View style={styles.formContainer}>
+							<Input
+								label="First name"
+								onHandleTextChange={(val) => {
+									setValue("first_name", val);
+								}}
+								value={watch("first_name")}
+								placeHolder="Enter student first name"
+								placeholderTextColor={colors.neutral400}
+								keyboardType="default"
+								error={
+									errors?.first_name?.message &&
+									errors?.first_name?.message
+								}
+							/>
 
-						<Input
-							label="Email"
-							onHandleTextChange={(val) => {
-								setValue("email", val);
-							}}
-							value={watch("email")}
-							placeHolder="Enter your email"
-							keyboardType="email-address"
-							error={errors?.email?.message && errors?.email?.message}
-							placeholderTextColor={colors.neutral400}
-						/>
+							<Input
+								label="Last name"
+								onHandleTextChange={(val) => {
+									setValue("last_name", val);
+								}}
+								value={watch("last_name")}
+								placeHolder="Enter student first name"
+								placeholderTextColor={colors.neutral400}
+								keyboardType="default"
+								error={
+									errors?.last_name?.message &&
+									errors?.last_name?.message
+								}
+							/>
 
-						<CustomDropdown
-							options={enrollmentOptions}
-							handleOnSelect={(val) => {
-								setValue("enrollment_status", val);
-							}}
-							value={watch("enrollment_status")}
-							placeHolder="Select enrollment status"
-							label="Enrollment status"
-							error={
-								errors?.enrollment_status?.message &&
-								errors?.enrollment_status?.message
-							}
-						/>
-					</View>
-				</ScrollView>
+							<Input
+								label="Email"
+								onHandleTextChange={(val) => {
+									setValue("email", val);
+								}}
+								value={watch("email")}
+								placeHolder="Enter your email"
+								keyboardType="email-address"
+								error={errors?.email?.message && errors?.email?.message}
+								placeholderTextColor={colors.neutral400}
+							/>
+
+							<CustomDropdown
+								options={enrollmentOptions}
+								handleOnSelect={(val) => {
+									setValue("enrollment_status", val);
+								}}
+								value={watch("enrollment_status")}
+								placeHolder="Select enrollment status"
+								label="Enrollment status"
+								error={
+									errors?.enrollment_status?.message &&
+									errors?.enrollment_status?.message
+								}
+							/>
+						</View>
+					</ScrollView>
+				</KeyboardAvoidingViewContainer>
 			</View>
 			<View style={styles.footer}>
 				<TouchableOpacity
@@ -344,8 +354,8 @@ const styles = StyleSheet.create({
 		gap: verticalScale(20),
 	},
 	deleteButton: {
-		width: scale(50),
-		height: verticalScale(50),
+		width: Platform.OS === "ios" ? scale(45) : scale(55),
+		height: Platform.OS === "ios" ? verticalScale(50) : verticalScale(60),
 		backgroundColor: colors.rose,
 		borderRadius: radius?._12,
 		alignItems: "center",

@@ -8,6 +8,7 @@ const StackLayout = () => {
 				headerShown: false,
 			}}
 		>
+			<Stack.Screen name="index" />
 			<Stack.Screen
 				name="(modals)/studentModal"
 				options={{

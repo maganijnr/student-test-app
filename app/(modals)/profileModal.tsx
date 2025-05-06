@@ -110,8 +110,76 @@ const profileModal = () => {
 				<Header
 					title="Update Profile"
 					leftIcon={<BackButton />}
-					style={{ marginBottom: spacingY._10, paddingHorizontal: 0 }}
+					style={{ marginBottom: spacingY._20, paddingHorizontal: 0 }}
 				/>
+				{/* <KeyboardAvoidingViewContainer>
+					<View style={styles.avatarContainer}>
+						<Image
+							source={
+								image
+									? getProfileImage(image)
+									: imageUrl
+									? imageUrl
+									: getProfileImage(image)
+							}
+							style={styles.avatar}
+							contentFit="cover"
+							transition={100}
+						/>
+
+						<TouchableOpacity
+							style={styles.editIcon}
+							onPress={onPickImage}
+						>
+							<Icons.Pencil
+								size={verticalScale(20)}
+								color={colors.white}
+							/>
+						</TouchableOpacity>
+					</View>
+					<View style={styles.formContainer}>
+						<Input
+							label="First name"
+							onHandleTextChange={(val) => {
+								setValue("first_name", val);
+							}}
+							value={watch("first_name")}
+							placeHolder="Enter student first name"
+							placeholderTextColor={colors.neutral400}
+							keyboardType="default"
+							error={
+								errors?.first_name?.message &&
+								errors?.first_name?.message
+							}
+						/>
+
+						<Input
+							label="Last name"
+							onHandleTextChange={(val) => {
+								setValue("last_name", val);
+							}}
+							value={watch("last_name")}
+							placeHolder="Enter student first name"
+							placeholderTextColor={colors.neutral400}
+							keyboardType="default"
+							error={
+								errors?.last_name?.message && errors?.last_name?.message
+							}
+						/>
+
+						<Input
+							label="Email"
+							onHandleTextChange={(val) => {
+								setValue("email", val);
+							}}
+							value={watch("email")}
+							placeHolder="Enter your email"
+							keyboardType="email-address"
+							error={errors?.email?.message && errors?.email?.message}
+							placeholderTextColor={colors.neutral400}
+						/>
+					</View>
+				</KeyboardAvoidingViewContainer> */}
 
 				<ScrollView contentContainerStyle={styles.form}>
 					<View style={styles.avatarContainer}>
@@ -240,7 +308,7 @@ const styles = StyleSheet.create({
 		gap: spacingY._10,
 	},
 	formContainer: {
-		marginTop: verticalScale(20),
+		// marginTop: verticalScale(20),
 		gap: verticalScale(20),
 	},
 });

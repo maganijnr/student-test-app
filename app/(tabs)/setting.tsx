@@ -2,6 +2,7 @@ import Button from "@/components/Button";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import InfoItem from "@/components/sections/settings/InfoItem";
 import { colors, radius, spacingX, spacingY } from "@/constants/theme";
+import { clearDatabase } from "@/services/database.service";
 import { getProfileImage } from "@/services/image.service";
 import useAppStore from "@/store/store";
 import { scale, verticalScale } from "@/utils/styling";
@@ -9,7 +10,13 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import * as Icons from "phosphor-react-native";
 import React from "react";
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+	Platform,
+	ScrollView,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from "react-native";
 
 const SettingScreen = () => {
 	const { currentUser, logout } = useAppStore();
@@ -58,6 +65,7 @@ const SettingScreen = () => {
 
 					<TouchableOpacity
 						onPress={() => {
+							clearDatabase();
 							logout();
 							router.replace("/(auth)/register");
 						}}
@@ -101,8 +109,8 @@ const styles = StyleSheet.create({
 		gap: scale(10),
 	},
 	deleteButton: {
-		width: scale(50),
-		height: verticalScale(50),
+		width: Platform.OS === "ios" ? scale(45) : scale(55),
+		height: Platform.OS === "ios" ? verticalScale(50) : verticalScale(60),
 		backgroundColor: colors.rose,
 		borderRadius: radius?._12,
 		alignItems: "center",

@@ -3,7 +3,7 @@ import { InputProps } from "@/types";
 import { verticalScale } from "@/utils/styling";
 import { Eye, EyeSlash } from "phosphor-react-native";
 import React, { FC, useState } from "react";
-import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Platform, Pressable, StyleSheet, TextInput, View } from "react-native";
 import Typo from "./Typo";
 
 const Input: FC<InputProps> = ({
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 	},
 	inputSyle: {
 		backgroundColor: colors.white,
-		height: verticalScale(50),
+		height: Platform.OS === "ios" ? verticalScale(50) : verticalScale(60),
 		borderWidth: 1.5,
 		borderColor: colors.primaryDark,
 		borderRadius: radius._10,

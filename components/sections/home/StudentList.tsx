@@ -9,6 +9,7 @@ import { scale, verticalScale } from "@/utils/styling";
 import * as Icons from "phosphor-react-native";
 import React, { useMemo, useState } from "react";
 import {
+	Platform,
 	Pressable,
 	ScrollView,
 	StyleSheet,
@@ -72,8 +73,11 @@ const StudentList = () => {
 				/>
 				<TouchableOpacity
 					style={{
-						width: scale(45),
-						height: verticalScale(50),
+						width: Platform.OS === "ios" ? scale(45) : scale(55),
+						height:
+							Platform.OS === "ios"
+								? verticalScale(50)
+								: verticalScale(60),
 						backgroundColor: colors.primaryDark,
 						borderRadius: scale(10),
 						alignItems: "center",
