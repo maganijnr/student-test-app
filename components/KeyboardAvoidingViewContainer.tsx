@@ -44,7 +44,9 @@ const KeyboardAvoidingViewContainer = ({
 		<KeyboardAvoidingView
 			style={[styles.container, { backgroundColor: colors.white }]}
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
-			keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
+			keyboardVerticalOffset={
+				Platform.OS === "ios" ? KEYBOARD_VERTICAL_OFFSET : 0
+			}
 		>
 			<ScrollView
 				style={{ flexGrow: 1 }}
