@@ -41,3 +41,18 @@ Follow these steps to set up the project locally:
         ```bash
         yarn install
         ```
+
+3.  **Run the application:**
+    Choose one of the following commands:
+    *   For Expo:
+        ```bash
+        npx expo start
+        ```
+    *   For iOS Development Build:
+        ```bash
+        npm run ios
+        ```
+    *   For Android Development Build:
+        ```bash
+        npm run android
+        ``` 
