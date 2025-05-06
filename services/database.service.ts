@@ -1,4 +1,5 @@
 import { CurrentUserProps, Student } from "@/types";
+import * as FileSystem from "expo-file-system";
 import * as SQLite from "expo-sqlite";
 
 const setupDatabase = async () => {
@@ -114,7 +115,7 @@ export const fetchUserProfileFromDB =
 			const myDb = await setupDatabase();
 
 			const user = await myDb.getAllAsync<CurrentUserProps>(
-				`SELECT id, fullname, email, avatar FROM user_profile LIMIT 1;`
+				`SELECT fullname, email, avatar FROM user_profile LIMIT 1;`
 			);
 
 			return user[0] || null;
@@ -140,3 +141,20 @@ export const updateUserProfileInDB = async (
 		return null;
 	}
 };
+
+export async function clearDatabase() {
+	const dbName = "student.db"; // Replace with your database file name
+	const dbPath = `${FileSystem.documentDirectory}/SQLite/${dbName}`;
+
+	try {
+		const dbInfo = await FileSystem.getInfoAsync(dbPath);
+		if (dbInfo.exists) {
+			await FileSystem.deleteAsync(dbPath);
+			console.log(`Database "${dbName}" has been deleted.`);
+		} else {
+			console.log(`Database "${dbName}" does not exist.`);
+		}
+	} catch (error) {
+		console.error("Error deleting database:", error);
+	}
+}

@@ -1,7 +1,7 @@
 import { colors, radius } from "@/constants/theme";
 import { verticalScale } from "@/utils/styling";
 import { FC, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import Typo from "./Typo";
 
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
 		position: "relative",
 	},
 	dropdown: {
-		height: verticalScale(50),
+		height: Platform.OS === "ios" ? verticalScale(50) : verticalScale(60),
 		borderWidth: 1.5,
 		borderColor: colors.primaryDark,
 		borderRadius: radius._10,

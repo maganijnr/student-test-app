@@ -14,10 +14,6 @@ import { z } from "zod";
 const schema = z.object({
 	fullname: z.string().min(1, { message: "Full name is required" }),
 	email: z.string().email({ message: "Invalid email" }),
-	password: z
-		.string()
-		.min(5, { message: "Password must be at least 5 characters" })
-		.max(10, { message: "Password must be at most 10 characters" }),
 });
 
 type FormSchemaProps = z.infer<typeof schema>;
@@ -34,12 +30,11 @@ const RegisterScreen = () => {
 		defaultValues: {
 			fullname: "",
 			email: "",
-			password: "",
 		},
 	});
 
 	const onSubmit = (data: FormSchemaProps) => {
-		if (data.fullname && data.email && data.password) {
+		if (data.fullname && data.email) {
 			setCurrentUser(data);
 
 			router.replace("/(tabs)");
@@ -93,19 +88,6 @@ const RegisterScreen = () => {
 						placeHolder="Enter your email"
 						keyboardType="email-address"
 						error={errors?.email?.message && errors?.email?.message}
-					/>
-
-					<Input
-						label="Password"
-						onHandleTextChange={(val) => {
-							setValue("password", val);
-						}}
-						value={watch("password")}
-						placeHolder="Enter your password"
-						keyboardType="email-address"
-						error={errors?.password?.message && errors?.password?.message}
-						isSecured={true}
-						isPassword={true}
 					/>
 
 					<Button

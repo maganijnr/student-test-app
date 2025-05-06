@@ -1,5 +1,6 @@
 import Typo from "@/components/Typo";
 import { colors } from "@/constants/theme";
+import { studentsData } from "@/data/student-data";
 import useAppStore from "@/store/store";
 import { router } from "expo-router";
 import { useEffect } from "react";
@@ -12,7 +13,8 @@ import Animated, {
 } from "react-native-reanimated";
 
 export default function Page() {
-	const { currentUser, isNewUser, loadInitialData } = useAppStore();
+	const { currentUser, isNewUser, allStudents, setAllStudents } =
+		useAppStore();
 
 	const opacity = useSharedValue(0);
 	const translateY = useSharedValue(-50);
@@ -36,28 +38,24 @@ export default function Page() {
 	});
 
 	useEffect(() => {
-		useAppStore.getState().loadInitialData();
-	}, []);
-
-	useEffect(() => {
-		setTimeout(() => {
-			if (!isNewUser) {
-				if (!currentUser) {
-					router.replace("/(auth)/register");
-					return;
-				}
+		const timer = setTimeout(() => {
+			if (currentUser) {
 				router.replace("/(tabs)");
+				return;
 			} else {
-				if (!currentUser) {
-					router.replace("/(auth)/(onboarding)");
+				if (allStudents.length === 0) {
+					setAllStudents(studentsData);
 				}
+				router.replace("/(auth)/(onboarding)");
 			}
 		}, 2000);
-	}, [currentUser, isNewUser]);
+
+		return () => clearTimeout(timer);
+	}, [currentUser, isNewUser, allStudents.length]);
 
 	return (
 		<View style={styles.container}>
-			<StatusBar barStyle={"light-content"} />
+			<StatusBar barStyle={"dark-content"} />
 			<Animated.View style={[animatedStyle]}>
 				<Typo fontWeight={700} size={40}>
 					ELesson

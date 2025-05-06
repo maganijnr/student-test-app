@@ -10,7 +10,7 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { FC, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import Animated, {
 	Easing,
 	useAnimatedStyle,
@@ -52,6 +52,7 @@ const OnboardingItem: FC<{
 			colors={[...item.bgColors]}
 			style={styles.bgContainer}
 		>
+			<StatusBar barStyle={"dark-content"} />
 			<View style={styles.container}>
 				<Animated.View style={[styles.imageContainer, animatedStyle]}>
 					<Image

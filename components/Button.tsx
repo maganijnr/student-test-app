@@ -2,7 +2,7 @@ import { colors, radius } from "@/constants/theme";
 import { ButtonProps } from "@/types";
 import { scale, verticalScale } from "@/utils/styling";
 import React, { FC } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { Platform, StyleSheet, TouchableOpacity } from "react-native";
 import Typo from "./Typo";
 
 const Button: FC<ButtonProps> = ({
@@ -38,7 +38,7 @@ export default Button;
 const styles = StyleSheet.create({
 	outlineButton: {
 		backgroundColor: colors.white,
-		height: verticalScale(50),
+		height: Platform.OS === "ios" ? verticalScale(50) : verticalScale(60),
 		paddingHorizontal: scale(30),
 		borderRadius: radius._10,
 		alignItems: "center",
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 
 	voidButton: {
 		backgroundColor: colors.white,
-		height: verticalScale(50),
+		height: Platform.OS === "ios" ? verticalScale(50) : verticalScale(60),
 		paddingHorizontal: scale(30),
 		borderRadius: radius._10,
 		alignItems: "center",
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 		// paddingVertical: verticalScale(10),
 		paddingHorizontal: scale(30),
 		borderRadius: radius._10,
-		height: verticalScale(50),
+		height: Platform.OS === "ios" ? verticalScale(50) : verticalScale(60),
 		alignItems: "center",
 		justifyContent: "center",
 		borderWidth: 1.5,
